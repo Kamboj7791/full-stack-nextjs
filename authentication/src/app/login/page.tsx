@@ -11,7 +11,7 @@ export default function LoginPage() {
   const onLogin = async () => {};
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <h1>signup</h1>
+      <h1>Login</h1>
       <hr />
 
       <label htmlFor="email">email</label>
