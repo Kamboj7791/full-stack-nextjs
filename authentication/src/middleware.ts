@@ -10,17 +10,15 @@ export function middleware(request: NextRequest) {
     const publicPaths = ["/login", "/signup"];
 
     // Check if the current path is a public path
-    const isPublicPath = publicPaths.some((publicPath) =>
-      path.startsWith(publicPath)
-    );
+    const isPublicPath = path === "/login" || path === "/signup";
 
     // Get token from cookies
     const token = request.cookies.get("token")?.value || "";
-    console.log(token, isPublicPath, path);
+    // console.log(token, isPublicPath, path);
     // Redirect logic based on authentication status and path
     if (isPublicPath && token) {
       // Redirect to home if user is authenticated and trying to access public paths
-      return NextResponse.redirect(new URL("/", request.nextUrl));
+      return NextResponse.redirect(new URL("/profile", request.nextUrl));
     } else if (!isPublicPath && !token) {
       // Redirect to login if user is not authenticated and trying to access private paths
       return NextResponse.redirect(new URL("/login", request.nextUrl));
@@ -36,5 +34,5 @@ export function middleware(request: NextRequest) {
 }
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/", "/profile", "/login", "/signup"],
+  matcher: ["/", "/profile/:path*", "/login", "/signup"],
 };
