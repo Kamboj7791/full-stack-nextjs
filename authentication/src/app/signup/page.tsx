@@ -13,15 +13,7 @@ export default function SignupPage() {
   });
   const [disableButton, setdisableButton] = React.useState(false);
   useEffect(() => {
-    if (
-      user.email.length > 0 &&
-      user.username.length > 0 &&
-      user.password.length > 0
-    ) {
-      setdisableButton(false);
-    } else {
-      setdisableButton(true);
-    }
+    setdisableButton(!(user.email && user.password && user.username));
   }, [user]);
   const [loading, setLoading] = React.useState(false);
 
@@ -39,46 +31,61 @@ export default function SignupPage() {
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <h1>{loading ? "Processing" : "Signup"}</h1>
-      <hr />
-      <label htmlFor="username">username</label>
-      <input
-        className="p-2 text-black"
-        value={user.username}
-        id="username"
-        type="text"
-        onChange={(e) => {
-          setUser({ ...user, username: e.target.value });
-        }}
-        placeholder="username"
-      />
-      <label htmlFor="email">email</label>
-      <input
-        className="p-2 text-black"
-        value={user.email}
-        id="email"
-        type="text"
-        onChange={(e) => {
-          setUser({ ...user, email: e.target.value });
-        }}
-        placeholder="email"
-      />
-      <label htmlFor="password">password</label>
-      <input
-        className="p-2 text-black"
-        value={user.password}
-        id="password"
-        type="password"
-        onChange={(e) => {
-          setUser({ ...user, password: e.target.value });
-        }}
-        placeholder="password"
-      />
-      <button onClick={onSignup} className="p-2 border border-gray-300 mt-4">
-        {disableButton ? "no Signup" : "Signup"}
-      </button>
-      <Link href="/login">visit login</Link>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 to-purple-500">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 className="text-3xl font-semibold mb-4 text-center text-gray-800">
+          Hello there!
+        </h1>
+        <div className="mb-4">
+          <label htmlFor="username" className="block text-gray-700">
+            Username
+          </label>
+          <input
+            className="p-2 border rounded-md w-full text-black"
+            value={user.username}
+            id="email"
+            type="text"
+            onChange={(e) => setUser({ ...user, username: e.target.value })}
+            placeholder="Enter your username"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-gray-700">
+            Email
+          </label>
+          <input
+            className="p-2 border rounded-md w-full text-black"
+            value={user.email}
+            id="email"
+            type="text"
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
+            placeholder="Enter your email"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="password" className="block text-gray-700">
+            Password
+          </label>
+          <input
+            className="p-2 border rounded-md w-full text-black"
+            value={user.password}
+            id="password"
+            type="password"
+            onChange={(e) => setUser({ ...user, password: e.target.value })}
+            placeholder="Enter your password"
+          />
+        </div>
+        <button
+          onClick={onSignup}
+          className={`p-2 border rounded-md w-full ${
+            disableButton
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600 text-white"
+          }`}
+          disabled={disableButton}>
+          {loading ? "Processing..." : "Signup"}
+        </button>
+      </div>
     </div>
   );
 }
