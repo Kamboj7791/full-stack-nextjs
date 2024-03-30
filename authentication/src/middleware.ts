@@ -18,7 +18,7 @@ export function middleware(request: NextRequest) {
     // Redirect logic based on authentication status and path
     if (isPublicPath && token) {
       // Redirect to home if user is authenticated and trying to access public paths
-      return NextResponse.redirect(new URL("/profile", request.nextUrl));
+      return NextResponse.redirect(new URL("/", request.nextUrl));
     } else if (!isPublicPath && !token) {
       // Redirect to login if user is not authenticated and trying to access private paths
       return NextResponse.redirect(new URL("/login", request.nextUrl));
