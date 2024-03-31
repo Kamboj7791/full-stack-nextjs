@@ -2,6 +2,8 @@
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useState } from "react";
+import Link from "next/link";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -15,6 +17,12 @@ export default function ProfilePage() {
       console.error(error);
     }
   };
+  const [data, setData] = useState("blank");
+  const getUserData = async () => {
+    const response = await axios.get("/api/users/me");
+    console.log(response.data);
+    setData(response.data.data._id);
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -25,49 +33,19 @@ export default function ProfilePage() {
           Logout
         </button>
       </div>
-      <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <h1 className="text-xl font-bold mb-4">Complete your profile</h1>
-        <hr className="mb-6" />
-        <div className="mb-4">
-          <label
-            htmlFor="domain"
-            className="block text-gray-700 text-sm font-bold mb-2">
-            Domain
-          </label>
-          <input
-            type="text"
-            id="domain"
-            placeholder="Enter your domain"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="name"
-            className="block text-gray-700 text-sm font-bold mb-2">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            placeholder="Enter your name"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="institute"
-            className="block text-gray-700 text-sm font-bold mb-2">
-            Institute
-          </label>
-          <input
-            type="text"
-            id="institute"
-            placeholder="Enter your institute"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-      </div>
+      <h1 className="text-black">ProfilePage</h1>
+      <p className="text-black bg-blue-500">
+        {data === "blank" ? (
+          "nothing"
+        ) : (
+          <Link href={`/profile/${data}`}>{data}</Link>
+        )}
+      </p>
+      <button
+        onClick={getUserData}
+        className="bg-green-500 hover:bg-blue-700 text-white px-4 py-2 font-bold rounded">
+        getInfo
+      </button>
     </div>
   );
 }
