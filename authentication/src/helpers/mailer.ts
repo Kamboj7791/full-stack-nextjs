@@ -42,7 +42,7 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
     const mailresponse = await transport.sendMail(mailOptions);
     return mailresponse;
   } catch (error: any) {
-    // console.log(error.message);
+    console.log(error.message);
     throw new Error(error.message);
   }
 };
